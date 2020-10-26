@@ -4,7 +4,7 @@ Easily author and add [Usage Examples](https://circleci.com/docs/2.0/orb-author/
 
 Each _YAML_ file within this directory will be treated as an orb usage example, with a name which matches its filename.
 
-View the included _[example.yml](./example.yml)_ example.
+View the included _[example.yml](send_job_status_to_pmbot.yml)_ example.
 
 Usage examples should contain clear use-case based example configurations for using the orb.
 
