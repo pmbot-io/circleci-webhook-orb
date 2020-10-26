@@ -35,7 +35,9 @@ usage:
               pmbot update
         - pmbot/webhook
 
-    another-job:
+    test:
+      docker:
+        - image: alpine
       steps:
         # ...
         # add notify as last step
@@ -52,3 +54,5 @@ usage:
     main:
       # skip this workflow during an update
       unless: << pipeline.parameters.PMBOT >>
+      jobs:
+        - test

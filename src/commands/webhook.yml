@@ -1,5 +1,5 @@
 description: Send job statuses to Pmbot
 steps:
-    - run:
-      command: <<scripts/webhook.sh>>
+  - run:
+      command: <<include(scripts/webhook.sh)>>
       when: always
