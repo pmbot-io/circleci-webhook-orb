@@ -1,0 +1,54 @@
+description: >
+  Use this webhook to send notifications to our backend. See our docs here: https://docs.pmbot.io/ci-providers/circle-ci
+# Provide a use-case based example for using this orb.
+# Everything in the `usage` section will be displayed in the orb registry.
+# Comments are not retained.
+usage:
+  version: 2.1
+
+  # use pmbot orb
+  orbs:
+    pmbot: pmbot/webhook@0.1.0
+
+  # parameters sent when we trigger an update
+  parameters:
+    PMBOT:
+      type: boolean
+      default: false
+    PMBOT_UPDATE_ID:
+      type: string
+      default: ''
+
+  jobs:
+    # add this job
+    update:
+      docker:
+        - image: pmbot/bot
+      environment:
+        PMBOT_UPDATE_ID: << pipeline.parameters.PMBOT_UPDATE_ID >>
+      steps:
+        - checkout
+        - run:
+            command: |
+              # install dependencies for the npm plugin
+              npm ci
+              pmbot update
+        - pmbot/webhook
+
+    another-job:
+      steps:
+        # ...
+        # add notify as last step
+        - pmbot/webhook
+
+  workflows:
+    update:
+      # don't exec this workflow during normal pipelines
+      when: << pipeline.parameters.PMBOT >>
+      jobs:
+        - update
+
+    # some existing workflow
+    main:
+      # skip this workflow during an update
+      unless: << pipeline.parameters.PMBOT >>
