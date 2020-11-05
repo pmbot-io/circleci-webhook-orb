@@ -13,6 +13,13 @@
 
 We welcome [issues](https://github.com/pmbot-io/circleci-webhook-orb/issues) to and [pull requests](https://github.com/pmbot-io/circleci-webhook-orb/pulls) against this repository!
 
+### How to build
+
+```
+circleci orb pack ./src/ > orb.yml
+circleci orb validate orb.yml
+```
+
 ### How to Publish
 * Create and push a branch with your new features.
 * When ready to publish a new production version, create a Pull Request from fore _feature branch_ to `master`.

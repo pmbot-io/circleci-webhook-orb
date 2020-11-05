@@ -1,8 +1,12 @@
 description: >
-  Use this webhook to send notifications to our backend. See our docs here: https://docs.pmbot.io/ci-providers/circle-ci
-# Provide a use-case based example for using this orb.
-# Everything in the `usage` section will be displayed in the orb registry.
-# Comments are not retained.
+  Use this webhook to send notifications to our backend. See our docs here: https://docs.pmbot.io/ci-providers/circle-ci.
+
+  This orb needs to be used on every job that your .circle/config.yml file contains.
+
+  The orb makes a simple HTTP request to Pmbot server to notify when a job ends. Pmbot can then check the status of your pipeline and determine whether the update of your dependency failed. The orb uses various environment variables named PMBOT_... that are configured automatically by Pmbot when you setup a repository. These variables are used by our orb to authenticate the webhook call.
+
+  Additionally, it uses both environment variables PMBOT_UPDATE_ID and PMBOT_SSH_PRIVATE_KEY, configured as pipeline parameters and sent by Pmbot when triggering pipelines when your automated updates are scheduled.
+
 usage:
   version: 2.1
 
@@ -26,6 +30,7 @@ usage:
         - image: pmbot/bot
       environment:
         PMBOT_UPDATE_ID: << pipeline.parameters.PMBOT_UPDATE_ID >>
+        PMBOT_SSH_PRIVATE_KEY: << pipeline.parameters.PMBOT_SSH_PRIVATE_KEY >>
       steps:
         - checkout
         - run:
